@@ -17,7 +17,7 @@ composer require lokielse/laravel-admin:~1.0.0
 
 ### Publish config first
 ```bash
-php artisan vendor:publish --provider="Lokielse\Admin\AdminServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Lokielse\Admin\AdminServiceProvider"
 ```
 
 NPM
