@@ -29,7 +29,7 @@ Via Composer
 $ composer require lokielse/laravel-admin
 ```
 
-More usages please visit [Installation](wiki/1-Installation.md)
+More about this please visit [Installation](wiki/1-Installation.md)
 
 ## Usage
 
