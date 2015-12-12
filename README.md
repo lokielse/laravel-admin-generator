@@ -37,7 +37,7 @@ Create a new instance named `admin`
 php artisan console:new admin
 ```
 
-Create a new entity `post` for an instance `admin`
+Create a new entity `post` for the instance `admin`
 ```
 php artisan console:entity admin post
 ```
