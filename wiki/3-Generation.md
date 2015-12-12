@@ -1,15 +1,25 @@
 Commands 命令
 ============
 
-### Create a new instance
+### Create a new instance named `admin`
 ```
-php artisan admin:new default
+php artisan console:new admin
 ```
 
-### Create a new entity for an instance
+### Create a new entity `post` for the `admin` instance
 ```
-php artisan admin:entity default post
+php artisan console:entity admin post
 ```
+use `template` option for this
+```
+php artisan console:entity admin post -t table
+```
+use multiple `template` option for this
+```
+php artisan console:entity admin post -t table,edit-modal
+```
+
+more options use `php artisan console:entity -h`
 
 ## Generate assets
 ```

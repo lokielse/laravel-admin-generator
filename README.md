@@ -1,4 +1,4 @@
-Laravel Admin
+Laravel Console
 ================
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
@@ -9,8 +9,7 @@ Laravel Admin
 [![Total Downloads][ico-downloads]][link-downloads]
 
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
+A console panel generator with AngularJs-Bootstrap-SBAdmin for Laravel 5
 
 ## Software environment
 
@@ -26,21 +25,21 @@ PSRs you support to avoid any confusion with users and contributors.
 Via Composer
 
 ``` bash
-$ composer require lokielse/laravel-admin
+$ composer require lokielse/laravel-console
 ```
 
 More about this please visit [Installation](wiki/1-Installation.md)
 
 ## Usage
 
-Create a new instance
+Create a new instance named `admin`
 ```
-php artisan admin:new default
+php artisan console:new admin
 ```
 
-Create a new entity for an instance
+Create a new entity `post` for an instance `admin`
 ```
-php artisan admin:entity default post
+php artisan console:entity admin post
 ```
 
 More usages please visit the bellow wiki
@@ -69,17 +68,17 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/lokielse/laravel-admin.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/lokielse/laravel-console.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/lokielse/laravel-admin/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/lokielse/laravel-admin.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/lokielse/laravel-admin.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/lokielse/laravel-admin.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/lokielse/laravel-console/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/lokielse/laravel-console.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/lokielse/laravel-console.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/lokielse/laravel-console.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/lokielse/laravel-admin
-[link-travis]: https://travis-ci.org/lokielse/laravel-admin
-[link-scrutinizer]: https://scrutinizer-ci.com/g/lokielse/laravel-admin/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/lokielse/laravel-admin
-[link-downloads]: https://packagist.org/packages/lokielse/laravel-admin
+[link-packagist]: https://packagist.org/packages/lokielse/laravel-console
+[link-travis]: https://travis-ci.org/lokielse/laravel-console
+[link-scrutinizer]: https://scrutinizer-ci.com/g/lokielse/laravel-console/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/lokielse/laravel-console
+[link-downloads]: https://packagist.org/packages/lokielse/laravel-console
 [link-author]: https://github.com/lokielse
 [link-contributors]: ../../contributors

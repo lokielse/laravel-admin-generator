@@ -1,4 +1,4 @@
-<?php namespace Lokielse\Admin\Console\Commands;
+<?php namespace Lokielse\Console\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
@@ -14,14 +14,14 @@ class CreateEntityCommand extends Command
      *
      * @var string
      */
-    protected $name = 'admin:entity';
+    protected $name = 'console:entity';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generate entity for admin.';
+    protected $description = 'Generate entity for console.';
 
 
     /**
@@ -31,61 +31,122 @@ class CreateEntityCommand extends Command
      */
     public function fire()
     {
-        $instance = $this->argument('instance');
-        $template = $this->option('template');
-        $src      = $this->option('src');
-        $force    = $this->option('force');
+        $instance  = $this->argument('instance');
+        $template  = $this->option('template');
+        $force     = $this->option('force');
+        $merge     = $this->option('merge');
+        $namespace = trim(config('console.namespace'));
 
-        if ( ! config("admin.instances.{$instance}")) {
-            $this->warn("The instance '{$instance}' is not exist, check the typo or add it to config/admin.php first");
+        if ( ! $namespace) {
+            $this->error("The config 'namespace' in 'config/console.php' can not be empty, general set it to 'console'");
             exit;
         }
 
-        if ( ! $src) {
-            $src = realpath(__DIR__ . '/../../../templates');
-            $src = str_replace(base_path(), '', $src);
+        if ( ! config("console.instances.{$instance}")) {
+            $this->warn("The instance '{$instance}' is not exist, check the typo or add it to config/console.php first");
+            exit;
         }
 
-        $templatePath = trim($src, '/') . '/' . $template;
+        $templates = $this->getTemplates($template, $merge);
 
-        $finder     = new Finder();
+        $files = $this->getMergedFiles($templates);
+
         $filesystem = new Filesystem();
 
-        if ( !is_dir(base_path($templatePath))) {
-            $this->warn(sprintf("The template '%s' is not exists in path '%s'", $template, base_path($templatePath)));
-            exit;
+        foreach ($files as $src) {
+            $destName = $this->getFileDest($src);
+
+            $destName = str_replace('_namespace_', snake_case($namespace, '-'), $destName);
+            $destName = str_replace('_name_', snake_case($instance, '-'), $destName);
+
+            $destName = $this->replaceKeyword($destName);
+
+            if (is_file($destName) && ! $force) {
+                $this->error(sprintf("The file %s is already exist, use -f 1 to override it", str_replace(base_path() . '/', '', $destName)));
+                exit;
+            } else {
+                $this->info(sprintf("Copying file to %s", str_replace(base_path() . '/', '', $destName)));
+            }
+
+            $content  = $filesystem->get($src);
+            $replaced = $this->replaceKeyword($content);
+
+            $filesystem->put($destName, $replaced);
         }
+
+        $this->warn('Done! Please config route and menu in app.coffee and MenuController.coffee');
+    }
+
+
+    public function getFileDest($file)
+    {
+        $templatePath = $this->getTemplatePath();
+        $path         = preg_replace("#^$templatePath/[^/]+/#", '', $file);
+
+        return base_path("{$path}");
+    }
+
+
+    protected function getMergedFiles($templates)
+    {
+        $names  = [ ];
+        $finder = new Finder();
+
+        foreach ($templates as $n => $template) {
+            $path = $this->getTemplateDir($template);
+
+            foreach ($finder->name('*')->in($path) as $file) {
+                /**
+                 * @var \SplFileInfo $file
+                 */
+                if ($file->isFile()) {
+                    $add = true;
+                    for ($k = $n + 1; $k < count($templates); $k++) {
+                        if ($this->fileExistInTemplate($templates[$k])) {
+                            $add = false;
+                            break;
+                        }
+                    }
+                    if ($add) {
+                        $names[] = $file->getPathname();
+                    }
+                }
+            }
+        }
+
+        return $names;
+    }
+
+
+    protected function fileExistInTemplate($template)
+    {
+        return true;
+    }
+
+
+    protected function getTemplateDir($template)
+    {
+        $templatePath = $this->getTemplatePath();
+
+        return "{$templatePath}/{$template}";
+    }
+
+
+    public function getRelativeNameInDir($templatePath)
+    {
+        $finder = new Finder();
+        $names  = [ ];
 
         foreach ($finder->name('*')->in(base_path($templatePath)) as $file) {
             /**
              * @var \SplFileInfo $file
              */
             if ($file->isFile()) {
-                $content  = $filesystem->get($file->getPathname());
-                $replaced = $this->replaceKeyword($content);
-
-                $path = str_replace(realpath(__DIR__ . '/../../../templates/' . $template), '', $file->getPath());
-
-                $fileDest = base_path('resources/' . trim($path, '/'));
-                $baseName = $file->getBasename();
-                $baseName = $this->replaceKeyword($baseName);
-
-                $destName = rtrim($fileDest, '/') . '/' . $baseName;
-
-                $destName = str_replace('_instance_', $instance, $destName);
-
-                if (is_file($destName) && ! $force) {
-                    $this->error(sprintf("The file %s is already exist, use -f 1 to override it", str_replace(base_path() . '/', '', $destName)));
-                    exit;
-                } else {
-                    $this->info(sprintf("Copying file to %s", str_replace(base_path() . '/', '', $destName)));
-                }
-
-                $filesystem->put($destName, $replaced);
+                $names[] = str_replace(base_path($templatePath), '', $file->getPathname());
             }
         }
 
-        $this->warn('Done! Please config route and menu in app.coffee and MenuController.coffee');
+        return $names;
     }
 
 
@@ -111,33 +172,17 @@ class CreateEntityCommand extends Command
     protected function getOptions()
     {
         return [
-            [ 'template', 't', InputOption::VALUE_OPTIONAL, 'The template name', 'empty' ],
-            [ 'plural', 'p', InputOption::VALUE_OPTIONAL, 'The plural name of entity' ],
-            //[ 'modal', 'm', InputOption::VALUE_OPTIONAL, 'To create a modal?' ],
-            [ 'src', 's', InputOption::VALUE_OPTIONAL, 'To template src path' ],
-            [ 'force', 'f', InputOption::VALUE_OPTIONAL, 'To override an exists file' ]
+            [ 'template', 't', InputOption::VALUE_OPTIONAL, 'The template name', 'default' ],
+            [ 'force', 'f', InputOption::VALUE_OPTIONAL, 'To override an exists file' ],
+            [ 'merge', 'm', InputOption::VALUE_OPTIONAL, 'To merge with default template', 1 ]
         ];
-    }
-
-
-    protected function getPlural($name)
-    {
-        $plural = $this->option('plural');
-
-        if ($plural) {
-            $names = $plural;
-        } else {
-            $names = str_plural($name);
-        }
-
-        return $names;
     }
 
 
     protected function replaceKeyword($content)
     {
         $name  = camel_case($this->argument('name'));
-        $names = $this->getPlural($name);
+        $names = str_plural($name);
 
         $replaced = preg_replace([
             '#_theEntity_#',
@@ -160,6 +205,36 @@ class CreateEntityCommand extends Command
         ], $content);
 
         return $replaced;
+    }
+
+
+    /**
+     * @return mixed|string
+     */
+    protected function getTemplatePath()
+    {
+        $templatePath = config('console.templates_path', base_path('resources/console-templates'));
+        $templatePath = rtrim($templatePath, '/');
+
+        return $templatePath;
+    }
+
+
+    /**
+     * @param $template
+     * @param $merge
+     *
+     * @return array
+     */
+    protected function getTemplates($template, $merge)
+    {
+        $templates = explode(',', $template);
+        if ($merge) {
+            array_unshift($templates, 'default');
+        }
+        $templates = array_unique($templates);
+
+        return $templates;
     }
 
 }
