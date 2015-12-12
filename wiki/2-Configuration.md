@@ -8,32 +8,38 @@ Laravel
 ```php
 return [
     'bower'     => [
-        'directory' => public_path('bower_components')
+        'directory' => 'bower_components'
     ],
+    'namespace' => 'console',
     'instances' => [
-        'default' => [
-            'domain' => 'dev.admin.example.com',
+        'admin' => [
+            'domain' => 'admin.console.example.com',
             'prefix' => '',
             'ng_app' => 'app',
-        ],
+        ]
     ]
 ];
 ```
 
 ### `app\Http\routes.php`
 ```
-$instances = config('admin.instances');
+$namespace = config('console.namespace');
+$instances = config('console.instances', []);
 
 foreach ($instances as $name => $instance) {
-    Route::group([
+
+    $attributes = [
         'domain' => $instance['domain'],
         'prefix' => $instance['prefix']
-    ], function () use ($name, $instance) {
-        Route::get('/{path?}', function () use ($name, $instance) {
-            return view("admin/{$name}/app", compact('name', 'instance'));
+    ];
+
+    Route::group($attributes, function () use ($namespace, $name, $instance) {
+        Route::get('/{path?}', function () use ($namespace, $name) {
+            return view("{$namespace}/{$name}/app", compact('namespace', 'name'));
         });
     });
 }
+
 ```
 
 
@@ -46,19 +52,20 @@ var _ = require('underscore');
 require('laravel-elixir-ngtemplatecache');
 
 elixir(function (mix) {
+    var namespace = 'console';
     var instances = [{
-        name: 'default'
+        name: 'admin'
     }];
 
     _.each(instances, function (instance) {
         mix.coffee([
-            'admin/' + instance.name + '/app.coffee',
-            'admin/' + instance.name + '/**/**'
-        ], elixir.config.get('public.js.outputFolder') + '/admin/' + instance.name + '/app.js');
+            namespace + '/' + instance.name + '/app.coffee',
+            namespace + '/' + instance.name + '/**/**'
+        ], elixir.config.get('public.js.outputFolder') + '/' + namespace + '/' + instance.name + '/app.js');
 
-        mix.sass(['admin/' + instance.name + '/app.sass'], elixir.config.get('public.css.outputFolder') + '/admin/' + instance.name);
+        mix.sass([namespace + '/' + instance.name + '/app.sass'], elixir.config.get('public.css.outputFolder') + '/' + namespace + '/' + instance.name);
 
-        mix.ngTemplateCache('/admin/' + instance.name + '/**/*.html', elixir.config.get('public.js.outputFolder') + '/admin/' + instance.name, null, {
+        mix.ngTemplateCache('/' + namespace + '/' + instance.name + '/**/*.html', elixir.config.get('public.js.outputFolder') + '/' + namespace + '/' + instance.name, null, {
             templateCache: {
                 standalone: true
             },

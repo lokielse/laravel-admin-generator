@@ -5,19 +5,20 @@ Laravel
 ------
 
 ```bash
-composer require lokielse/laravel-admin:~1.0.0
+composer require lokielse/laravel-console:~1.1.0
 ```
 
 ### `config/app.php`
 ```php
 'providers' => [
-    Lokielse\Admin\AdminServiceProvider::class
+    Lokielse\Console\ConsoleServiceProvider::class
 ]
 ```
 
 ### Publish config first
 ```bash
-php artisan vendor:publish --provider="Lokielse\Admin\AdminServiceProvider"
+php artisan vendor:publish --provider="Lokielse\Console\ConsoleServiceProvider" --tag=config
+php artisan vendor:publish --provider="Lokielse\Console\ConsoleServiceProvider" --tag=templates
 ```
 
 NPM

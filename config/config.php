@@ -1,14 +1,16 @@
 <?php
 
 return [
-    'bower'     => [
-        'directory' => public_path('bower_components')
+    'bower'          => [
+        'directory' => 'bower_components'
     ],
-    'instances' => [
-        'default' => [
-            'domain' => 'dev.admin.example.com',
+    'namespace'      => 'console',
+    'templates_path' => base_path('resources/console-templates'),
+    'instances'      => [
+        'admin' => [
+            'domain' => 'admin.console.example.com',
             'prefix' => '',
             'ng_app' => 'app',
-        ],
+        ]
     ]
 ];
