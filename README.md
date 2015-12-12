@@ -28,7 +28,7 @@ Via Composer
 $ composer require lokielse/laravel-console
 ```
 
-More about this please visit [Installation](wiki/1-Installation.md)
+More about this please visit [Installation](wiki/1-Installation.md) and [Configuration](wiki/2-Configuration.md)
 
 ## Usage
 
@@ -42,11 +42,7 @@ Create a new entity `post` for the instance `admin`
 php artisan console:entity admin post
 ```
 
-More usages please visit the bellow wiki
-
-* [Configuration](wiki/2-Configuration.md)
-
-* [Generation](wiki/3-Generation.md)
+More usages please visit the bellow wiki [Generation](wiki/3-Generation.md)
 
 
 ## Change log
