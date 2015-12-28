@@ -9,13 +9,14 @@ Laravel Console
 [![Total Downloads][ico-downloads]][link-downloads]
 
 
-A console panel generator with AngularJs-Bootstrap-SBAdmin for Laravel 5
+An admin console panel generator with AngularJs-Bootstrap-SBAdmin-AdminLTE for Laravel 5
 
 ## Software environment
 
 * AngularJs
 * Bootstrap
 * SB Admin
+* AdminLTE
 * CoffeeScript
 * Sass
 * Gulp
@@ -28,21 +29,25 @@ Via Composer
 $ composer require lokielse/laravel-console
 ```
 
-More about this please visit [Installation](wiki/1-Installation.md) and [Configuration](wiki/2-Configuration.md)
+More about this please visit [Installation](docs/1-Installation.md) and [Configuration](docs/2-Configuration.md)
 
 ## Usage
 
 Create a new instance named `admin`
 ```
-php artisan console:new admin
+//create an console demo with AdminLTE
+php artisan console:new admin-demo --engine admin-lte
+
+//or create an console demo with SB-Admin
+php artisan console:new admin-demo --engine sb-admin
 ```
 
-Create a new entity `post` for the instance `admin`
+Create a new entity `post` for the instance `admin-demo`
 ```
-php artisan console:entity admin post
+php artisan console:entity admin-demo post
 ```
 
-More usages please visit the bellow wiki [Generation](wiki/3-Generation.md)
+More usages please visit the bellow wiki [Generation](docs/3-Generation.md)
 
 
 ## Change log
