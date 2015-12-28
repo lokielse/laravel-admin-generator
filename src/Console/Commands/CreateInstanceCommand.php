@@ -4,6 +4,7 @@ use File;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Finder\Finder;
 
 class CreateInstanceCommand extends Command
 {
@@ -32,6 +33,8 @@ class CreateInstanceCommand extends Command
     {
         $name      = $this->argument('name');
         $force     = $this->option('force');
+        $engine    = $this->option('engine');
+        $basePath  = realpath(__DIR__ . '/../../..');
         $namespace = trim(config('console.namespace'));
 
         if ( ! $namespace) {
@@ -49,39 +52,64 @@ class CreateInstanceCommand extends Command
             exit;
         }
 
-        $name = strtolower($name);
+        if ( ! $engine) {
+            $this->warn("The engine option is empty, use --engine");
+            exit;
+        }
 
-        //dd($name);
+        if ( ! is_dir($basePath . "/engines/{$engine}")) {
+            $this->warn("The engine '$engine' is not support.");
+            exit;
+        }
 
-        $destCoffee   = base_path("resources/assets/coffee/{$namespace}/{$name}");
-        $destSass     = base_path("resources/assets/sass/{$namespace}/{$name}");
-        $destTemplate = base_path("resources/assets/templates/{$namespace}/{$name}");
-        $destIndex    = base_path("resources/views/{$namespace}/{$name}");
+        /**
+         *
+         */
+        $finder = new Finder();
+        $path   = $basePath . "/engines/{$engine}";
 
-        foreach ([ $destCoffee, $destTemplate, $destSass, $destIndex ] as $dir) {
-            if (is_dir($dir)) {
-                if ( ! $force) {
-                    $this->error("The directory $dir is already exists, use -f 1 options to overwrite it");
+        $copies = [ ];
+        foreach ($finder->name('*')->in($path) as $file) {
+            /**
+             * @var \SplFileInfo $file
+             */
+            if ($file->isFile()) {
+                $relativePath = str_replace($basePath . "/engines/{$engine}/", '', $file->getRealPath());
+                $dest         = base_path('resources/' . $relativePath);
+                $dest         = $this->replaceKeyword($dest);
+                if (is_file($dest) && ! $force) {
+                    $this->warn(sprintf("The file '%s' exists, use '--force' option to overwrite it.", str_replace(base_path(), '', $dest)));
                     exit;
                 }
-            } else {
-                File::makeDirectory($dir, 0755, true, true);
+                $copies[] = [ $file->getRealPath(), $dest ];
             }
         }
 
-        $this->info("Copying files to " . str_replace(base_path() . '/', '', $destCoffee));
-        File::copyDirectory(realpath(__DIR__ . '/../../../resources/assets/coffee/_namespace_/_name_'), $destCoffee);
-
-        $this->info("Copying files to " . str_replace(base_path() . '/', '', $destSass));
-        File::copyDirectory(realpath(__DIR__ . '/../../../resources/assets/sass/_namespace_/_name_'), $destSass);
-
-        $this->info("Copying files to " . str_replace(base_path() . '/', '', $destTemplate));
-        File::copyDirectory(realpath(__DIR__ . '/../../../resources/assets/templates/_namespace_/_name_'), $destTemplate);
-
-        $this->info("Copying files to " . str_replace(base_path() . '/', '', $destIndex));
-        File::copyDirectory(realpath(__DIR__ . '/../../../resources/views/_namespace_/_name_'), $destIndex);
+        foreach ($copies as $copy) {
+            if ( ! is_dir(dirname($copy[1]))) {
+                mkdir(dirname($copy[1]), 0755, true);
+            }
+            File::copy($copy[0], $copy[1]);
+        }
 
         $this->warn("Done! run 'gulp default && gulp watch' to generate assets");
+    }
+
+
+    protected function replaceKeyword($content)
+    {
+        $namespace = trim(config('console.namespace'));
+        $name      = strtolower($this->argument('name'));
+
+        $replaced = preg_replace([
+            '#_namespace_#',
+            '#_name_#',
+        ], [
+            $namespace,
+            $name,
+        ], $content);
+
+        return $replaced;
     }
 
 
@@ -107,7 +135,8 @@ class CreateInstanceCommand extends Command
     {
         return [
             [ 'dir', 'd', InputOption::VALUE_OPTIONAL, 'The root directory of templates' ],
-            [ 'force', 'f', InputOption::VALUE_OPTIONAL, 'Overwrite the exist files' ]
+            [ 'force', 'f', InputOption::VALUE_NONE, 'Overwrite the exist files' ],
+            [ 'engine', 'e', InputOption::VALUE_REQUIRED, "'sb-admin' or 'admin-lte'" ]
         ];
     }
 

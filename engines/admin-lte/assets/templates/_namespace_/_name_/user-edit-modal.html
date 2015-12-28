@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 class="modal-title">Edit _TheEntity_</h3>
+    <h3 class="modal-title">Edit User</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal">
@@ -7,22 +7,22 @@
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="name">姓名</label>
+                <label class="col-md-4 control-label" for="name">Name</label>
 
                 <div class="col-md-4">
                     <input id="name" name="name" placeholder="" class="form-control input-md" required="" type="text"
-                           ng-model="_theEntity_.name">
+                           ng-model="user.name">
 
                 </div>
             </div>
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="email">邮箱</label>
+                <label class="col-md-4 control-label" for="email">Email</label>
 
                 <div class="col-md-4">
                     <input id="email" name="email" placeholder="" class="form-control input-md" required="" type="text"
-                           ng-model="_theEntity_.email">
+                           ng-model="user.email">
 
                 </div>
             </div>
@@ -30,11 +30,11 @@
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="mobile">手机</label>
+                <label class="col-md-4 control-label" for="mobile">Mobile</label>
 
                 <div class="col-md-4">
                     <input id="mobile" name="mobile" placeholder="" class="form-control input-md" required=""
-                           type="text" ng-model="_theEntity_.mobile">
+                           type="text" ng-model="user.mobile">
 
                 </div>
             </div>
@@ -42,11 +42,10 @@
 
             <!-- Textarea -->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="address">住址</label>
+                <label class="col-md-4 control-label" for="address">Address</label>
 
                 <div class="col-md-4">
-                    <textarea class="form-control" id="address" name="address"
-                              ng-model="_theEntity_.address"></textarea>
+                    <textarea class="form-control" id="address" name="address" ng-model="user.address"></textarea>
                 </div>
             </div>
 
@@ -56,6 +55,6 @@
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="ok()" ng-hide="readonly">保存</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    <button class="btn btn-primary" type="button" ng-click="ok()" ng-hide="readonly">Save</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
 </div>

@@ -62,7 +62,7 @@ class CreateEntityCommand extends Command
             $destName = $this->replaceKeyword($destName);
 
             if (is_file($destName) && ! $force) {
-                $this->error(sprintf("The file %s is already exist, use -f 1 to override it", str_replace(base_path() . '/', '', $destName)));
+                $this->error(sprintf("The file %s is already exist, use option '--force' to override it", str_replace(base_path() . '/', '', $destName)));
                 exit;
             } else {
                 $this->info(sprintf("Copying file to %s", str_replace(base_path() . '/', '', $destName)));
@@ -173,7 +173,7 @@ class CreateEntityCommand extends Command
     {
         return [
             [ 'template', 't', InputOption::VALUE_OPTIONAL, 'The template name', 'default' ],
-            [ 'force', 'f', InputOption::VALUE_OPTIONAL, 'To override an exists file' ],
+            [ 'force', 'f', InputOption::VALUE_NONE, 'To override an exists file' ],
             [ 'merge', 'm', InputOption::VALUE_OPTIONAL, 'To merge with default template', 1 ]
         ];
     }

@@ -25,7 +25,7 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     protected function getTemplatePath()
     {
-        $templatePath = config('console.templates_path' , base_path('resources/console-templates'));
+        $templatePath = config('console.templates_path', base_path('resources/console-templates'));
         $templatePath = rtrim($templatePath, '/');
 
         return $templatePath;
