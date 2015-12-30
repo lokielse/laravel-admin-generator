@@ -6,17 +6,17 @@ Generation
 php artisan console:new admin
 ```
 
-### Create a new entity `post` for the `admin` instance
+### Create a new entity `post` for the `admin-demo` instance
 ```
-php artisan console:entity admin post
+php artisan console:entity admin-demo post
 ```
 use `template` option for this
 ```
-php artisan console:entity admin post -t table
+php artisan console:entity admin-demo post -t table
 ```
 use multiple `template` option for this
 ```
-php artisan console:entity admin post -t table,edit-modal
+php artisan console:entity admin-demo post -t table,edit-modal
 ```
 
 more options use `php artisan console:entity -h`
