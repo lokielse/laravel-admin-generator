@@ -2,6 +2,24 @@
 
 All Notable changes to `laravel-console` will be documented in this file
 
+## NEXT - 2015-12-30
+
+### Added
+- add entity template engine
+- add instance engine config
+
+### Deprecated
+- templates folder structure
+
+### Fixed
+- Nothing
+
+### Removed
+- Nothing
+
+### Security
+- Nothing
+
 ## NEXT - 2015-12-28
 
 ### Added

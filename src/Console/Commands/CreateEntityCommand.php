@@ -35,7 +35,8 @@ class CreateEntityCommand extends Command
         $template  = $this->option('template');
         $force     = $this->option('force');
         $merge     = $this->option('merge');
-        $namespace = trim(config('console.namespace'));
+        $namespace = config('console.namespace');
+        $engine    = config("console.instances.{$instance}.engine");
 
         if ( ! $namespace) {
             $this->error("The config 'namespace' in 'config/console.php' can not be empty, general set it to 'console'");
@@ -47,14 +48,18 @@ class CreateEntityCommand extends Command
             exit;
         }
 
-        $templates = $this->getTemplates($template, $merge);
+        if ( ! $engine) {
+            $this->warn("The engine of instance '{$instance}' is not exist, check the typo or add it to config/console.php first");
+        }
 
-        $files = $this->getMergedFiles($templates);
+        $templates = $this->getTemplates($template, $merge, $engine);
+
+        $files = $this->getMergedFiles($templates, $engine);
 
         $filesystem = new Filesystem();
 
         foreach ($files as $src) {
-            $destName = $this->getFileDest($src);
+            $destName = $this->getFileDest($src, $engine);
 
             $destName = str_replace('_namespace_', snake_case($namespace, '-'), $destName);
             $destName = str_replace('_name_', snake_case($instance, '-'), $destName);
@@ -78,22 +83,22 @@ class CreateEntityCommand extends Command
     }
 
 
-    public function getFileDest($file)
+    public function getFileDest($file, $engine)
     {
-        $templatePath = $this->getTemplatePath();
+        $templatePath = $this->getTemplatePath($engine);
         $path         = preg_replace("#^$templatePath/[^/]+/#", '', $file);
 
         return base_path("{$path}");
     }
 
 
-    protected function getMergedFiles($templates)
+    protected function getMergedFiles($templates, $engine)
     {
         $names  = [ ];
         $finder = new Finder();
 
         foreach ($templates as $n => $template) {
-            $path = $this->getTemplateDir($template);
+            $path = $this->getTemplateDir($template, $engine);
 
             foreach ($finder->name('*')->in($path) as $file) {
                 /**
@@ -124,9 +129,9 @@ class CreateEntityCommand extends Command
     }
 
 
-    protected function getTemplateDir($template)
+    protected function getTemplateDir($template, $engine)
     {
-        $templatePath = $this->getTemplatePath();
+        $templatePath = $this->getTemplatePath($engine);
 
         return "{$templatePath}/{$template}";
     }
@@ -211,10 +216,10 @@ class CreateEntityCommand extends Command
     /**
      * @return mixed|string
      */
-    protected function getTemplatePath()
+    protected function getTemplatePath($engine)
     {
         $templatePath = config('console.templates_path', base_path('resources/console-templates'));
-        $templatePath = rtrim($templatePath, '/');
+        $templatePath = rtrim($templatePath, '/') . '/' . $engine;
 
         return $templatePath;
     }
@@ -223,15 +228,18 @@ class CreateEntityCommand extends Command
     /**
      * @param $template
      * @param $merge
+     * @param $engine
      *
      * @return array
      */
     protected function getTemplates($template, $merge)
     {
         $templates = explode(',', $template);
+
         if ($merge) {
             array_unshift($templates, 'default');
         }
+
         $templates = array_unique($templates);
 
         return $templates;

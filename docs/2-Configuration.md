@@ -1,5 +1,5 @@
-Configuration 配置
-=================
+Configuration
+=============
 
 Laravel
 ----------------------------
@@ -13,6 +13,7 @@ return [
     'namespace' => 'console',
     'instances' => [
         'admin' => [
+            'engine' => 'admin-lte'
             'domain' => 'admin.console.example.com',
             'prefix' => '',
             'ng_app' => 'app',
