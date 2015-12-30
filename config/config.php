@@ -8,8 +8,9 @@ return [
     'templates_path' => base_path('resources/console-templates'),
     'instances'      => [
         'admin' => [
-            'domain' => 'admin.console.example.com',
-            'prefix' => '',
+            'engine'    => 'admin-lte',
+            'domain'    => 'admin.console.example.com',
+            'prefix'    => '',
             'ng_app' => 'app',
         ]
     ]

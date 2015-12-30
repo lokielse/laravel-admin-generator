@@ -12,25 +12,35 @@ this.app.config ($stateProvider, $urlRouterProvider, $locationProvider)->
       controller: 'DashboardController'
     })
 
-  .state('users', {
+  .state('general', {
+      abstract: true,
+      template: "<ui-view>",
+    })
+
+  .state('general.users', {
       url: "/users",
       templateUrl: "users.html",
       controller: 'UserController'
     })
 
-  .state('photos', {
+  .state('general.photos', {
       url: "/photos",
       templateUrl: "photos.html",
       controller: 'PhotoController'
     })
 
-  .state('third-one', {
+  .state('general.second', {
+      abstract: true,
+      template: "<ui-view>",
+    })
+
+  .state('general.second.third-one', {
       url: "/third-one",
       templateUrl: "third-one.html",
       controller: 'ThirdOneController'
     })
 
-  .state('third-two', {
+  .state('general.second.third-two', {
       url: "/third-two",
       templateUrl: "third-two.html",
       controller: 'ThirdTwoController'

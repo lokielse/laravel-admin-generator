@@ -1,5 +1,5 @@
-Installation 安装
-================
+Installation
+============
 
 Laravel
 ------

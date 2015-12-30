@@ -33,9 +33,10 @@ class CreateInstanceCommand extends Command
     {
         $name      = $this->argument('name');
         $force     = $this->option('force');
-        $engine    = $this->option('engine');
         $basePath  = realpath(__DIR__ . '/../../..');
-        $namespace = trim(config('console.namespace'));
+        $namespace = config('console.namespace');
+        $engine    = config('console.engine');
+        $engine    = config("console.instances.{$name}.engine");
 
         if ( ! $namespace) {
             $this->error("The config 'namespace' in 'config/console.php' can not be empty, general set it to 'admin'");
@@ -134,9 +135,7 @@ class CreateInstanceCommand extends Command
     protected function getOptions()
     {
         return [
-            [ 'dir', 'd', InputOption::VALUE_OPTIONAL, 'The root directory of templates' ],
             [ 'force', 'f', InputOption::VALUE_NONE, 'Overwrite the exist files' ],
-            [ 'engine', 'e', InputOption::VALUE_REQUIRED, "'sb-admin' or 'admin-lte'" ]
         ];
     }
 

@@ -47,7 +47,9 @@ class ConsoleServiceProvider extends ServiceProvider
             return $app->make('Lokielse\Console\Console\Commands\CreateEntityCommand');
         });
 
-        $this->commands('le-console.command.instance.new');
-        $this->commands('le-console.command.entity.new');
+        $this->commands([
+            'le-console.command.instance.new',
+            'le-console.command.entity.new'
+        ]);
     }
 }

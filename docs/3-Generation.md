@@ -1,5 +1,5 @@
-Commands 命令
-============
+Generation
+==========
 
 ### Create a new instance named `admin`
 ```

@@ -8,7 +8,6 @@ Laravel Console
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-
 An admin console panel generator with AngularJs-Bootstrap-SBAdmin-AdminLTE for Laravel 5
 
 ## Software environment
