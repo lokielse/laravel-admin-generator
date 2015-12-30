@@ -32,7 +32,7 @@ More about this please visit [Installation](docs/1-Installation.md) and [Configu
 
 ## Usage
 
-Create a new instance named `admin`
+Create a new instance named `admin-demo`
 ```
 //create an console demo with AdminLTE
 php artisan console:new admin-demo --engine admin-lte

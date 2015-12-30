@@ -5,7 +5,7 @@ Laravel
 ------
 
 ```bash
-composer require lokielse/laravel-console:~1.2.0
+composer require lokielse/laravel-console:~1.2.2
 ```
 
 ### `config/app.php`
