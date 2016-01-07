@@ -1,0 +1,86 @@
+<!-- Filter -->
+<div class="row">
+    <div class="col-lg-6 col-md-8 col-sm-8">
+        <div class="btn btn-default btn-inverse btn-sm" data-ng-click="reload()">
+            <span class="glyphicon glyphicon-refresh"></span></div>
+        &nbsp;&nbsp;
+        <div class="btn-group" ng-click="reload()">
+            <div class="btn btn-default btn-sm" ng-model="filter.apply" uib-btn-radio="0">
+                待审
+                <small ng-show="counter.apply_0">({{counter.apply_0}})</small>
+            </div>
+            <div class="btn btn-default btn-sm" ng-model="filter.apply" uib-btn-radio="1">
+                通过
+                <small ng-show="counter.apply_1">({{counter.apply_1}})</small>
+            </div>
+            <div class="btn btn-default btn-sm" ng-model="filter.apply" uib-btn-radio="2">
+                屏蔽
+                <small ng-show="counter.apply_2">({{counter.apply_2}})</small>
+            </div>
+        </div>
+        &nbsp;&nbsp;
+        <div class="btn-group" ng-click="reload()">
+            <div class="btn btn-default btn-sm" ng-model="filter.user_type"
+                 uib-btn-radio="'-1'">性别
+            </div>
+            <div class="btn btn-default btn-sm" ng-model="filter.user_type"
+                 uib-btn-radio="'1'">功
+            </div>
+            <div class="btn btn-default btn-sm" ng-model="filter.user_type"
+                 uib-btn-radio="'2'">魅
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-3 col-sm-4 pull-right hidden-xs">
+
+        <div class="input-group">
+
+            <input type="text" class="form-control input-sm" ng-model="filter.search"
+                   placeholder="UID,手机,昵称,所在地"
+                   ng-enter="search()">
+                    <span class="input-group-btn">
+                      <div class="btn btn-default btn-sm"
+                           data-ng-click="search()"><i class="glyphicon glyphicon-search"></i></div>
+                    </span>
+        </div>
+        <!-- /input-group -->
+    </div>
+    <!-- /.col-lg-6 -->
+</div>
+<!-- /.Filter -->
+
+<div style="margin-top: 30px">
+    <ul class="app-list app-_the-entities_-list">
+        <li ng-repeat="_theEntity_ in _theEntities_" class="col-lg-3 col-md-6 col-xs-12 col-sm-12">
+            <div class="box box-widget widget-user-2" ng-init="user=_theEntity_.user">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-gray">
+                    <div class="widget-user-image">
+                        <img class="img-circle" src="http://tp3.sinaimg.cn/1678105910/180/5665221605/0g"
+                             alt="User Avatar">
+                    </div>
+                    <!-- /.widget-user-image -->
+                    <h3 class="widget-user-username">
+                        <hovercard hover-tmpl-url="user-card.html">{{user.nick}}</hovercard>
+                    </h3>
+                    <h5 class="widget-user-desc">Lead Developer</h5>
+                </div>
+                <div class="box-footer no-padding">
+                    <ul class="nav nav-stacked">
+                        <li><a>ID<span class="pull-right">{{_theEntity_.id}}</span></a></li>
+                        <li><a>创建<span class="pull-right">{{_theEntity_.created_at}}</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <div style="clear: both;margin-top: 80px"></div>
+
+    <uib-pagination total-items="pagination.total" items-per-page="pagination.page_size"
+                    ng-model="pagination.page" max-size="10" class="pagination-sm pull-right"
+                    boundary-links="0" previous-text="&lsaquo;" next-text="&rsaquo;"
+                    first-text="首" last-text="末"></uib-pagination>
+    <div style="clear: both"></div>
+
+</div>

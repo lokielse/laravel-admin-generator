@@ -1,4 +1,4 @@
-<?php namespace Lokielse\Console\Console\Commands;
+<?php namespace Lokielse\AdminGenerator\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
@@ -14,14 +14,14 @@ class CreateEntityCommand extends Command
      *
      * @var string
      */
-    protected $name = 'console:entity';
+    protected $name = 'admin:entity:new';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generate entity for console.';
+    protected $description = 'Generate an entity.';
 
 
     /**
@@ -35,21 +35,21 @@ class CreateEntityCommand extends Command
         $template  = $this->option('template');
         $force     = $this->option('force');
         $merge     = $this->option('merge');
-        $namespace = config('console.namespace');
-        $engine    = config("console.instances.{$instance}.engine");
+        $namespace = config('admin-generator.namespace');
+        $engine    = config("admin-generator.instances.{$instance}.engine");
 
         if ( ! $namespace) {
-            $this->error("The config 'namespace' in 'config/console.php' can not be empty, general set it to 'console'");
+            $this->error("The config 'namespace' in 'config/admin-generator.php' can not be empty, general set it to 'console'");
             exit;
         }
 
-        if ( ! config("console.instances.{$instance}")) {
-            $this->warn("The instance '{$instance}' is not exist, check the typo or add it to config/console.php first");
+        if ( ! config("admin-generator.instances.{$instance}")) {
+            $this->warn("The instance '{$instance}' is not exist, check the typo or add it to config/admin-generator.php first");
             exit;
         }
 
         if ( ! $engine) {
-            $this->warn("The engine of instance '{$instance}' is not exist, check the typo or add it to config/console.php first");
+            $this->warn("The engine of instance '{$instance}' is not exist, check the typo or add it to config/admin-generator.php first");
         }
 
         $templates = $this->getTemplates($template, $merge, $engine);
@@ -60,9 +60,6 @@ class CreateEntityCommand extends Command
 
         foreach ($files as $src) {
             $destName = $this->getFileDest($src, $engine);
-
-            $destName = str_replace('_namespace_', snake_case($namespace, '-'), $destName);
-            $destName = str_replace('_name_', snake_case($instance, '-'), $destName);
 
             $destName = $this->replaceKeyword($destName);
 
@@ -163,8 +160,8 @@ class CreateEntityCommand extends Command
     protected function getArguments()
     {
         return [
+            [ 'entity', InputArgument::REQUIRED, 'The entity name.' ],
             [ 'instance', InputArgument::REQUIRED, 'The instance name.' ],
-            [ 'name', InputArgument::REQUIRED, 'The entity name.' ],
         ];
     }
 
@@ -186,10 +183,29 @@ class CreateEntityCommand extends Command
 
     protected function replaceKeyword($content)
     {
-        $name  = camel_case($this->argument('name'));
-        $names = str_plural($name);
+        $namespace = camel_case(config('admin-generator.namespace'));
+        $instance  = camel_case($this->argument('instance'));
+        $entity    = camel_case($this->argument('entity'));
 
         $replaced = preg_replace([
+            '#_theNamespace_#',
+            '#_theNamespaces_#',
+            '#_the-namespace_#',
+            '#_the_namespace_#',
+            '#_the-namespaces_#',
+            '#_the_namespaces_#',
+            '#_TheNamespace_#',
+            '#_TheNamespaces_#',
+            /**/
+            '#_theInstance_#',
+            '#_theInstances_#',
+            '#_the-instance_#',
+            '#_the_instance_#',
+            '#_the-instances_#',
+            '#_the_instances_#',
+            '#_TheInstance_#',
+            '#_TheInstances_#',
+            /**/
             '#_theEntity_#',
             '#_theEntities_#',
             '#_the-entity_#',
@@ -199,14 +215,32 @@ class CreateEntityCommand extends Command
             '#_TheEntity_#',
             '#_TheEntities_#',
         ], [
-            camel_case($name),
-            camel_case($names),
-            snake_case($name, '-'),
-            snake_case($name, '_'),
-            snake_case($names, '-'),
-            snake_case($names, '_'),
-            ucfirst(camel_case($name)),
-            ucfirst(camel_case($names)),
+            camel_case($namespace),
+            camel_case(str_plural($namespace)),
+            snake_case($namespace, '-'),
+            snake_case($namespace, '_'),
+            snake_case(str_plural($namespace), '-'),
+            snake_case(str_plural($namespace), '_'),
+            ucfirst(camel_case($namespace)),
+            ucfirst(camel_case(str_plural($namespace))),
+            /**/
+            camel_case($instance),
+            camel_case(str_plural($instance)),
+            snake_case($instance, '-'),
+            snake_case($instance, '_'),
+            snake_case(str_plural($instance), '-'),
+            snake_case(str_plural($instance), '_'),
+            ucfirst(camel_case($instance)),
+            ucfirst(camel_case(str_plural($instance))),
+            /**/
+            camel_case($entity),
+            camel_case(str_plural($entity)),
+            snake_case($entity, '-'),
+            snake_case($entity, '_'),
+            snake_case(str_plural($entity), '-'),
+            snake_case(str_plural($entity), '_'),
+            ucfirst(camel_case($entity)),
+            ucfirst(camel_case(str_plural($entity))),
         ], $content);
 
         return $replaced;
@@ -218,7 +252,7 @@ class CreateEntityCommand extends Command
      */
     protected function getTemplatePath($engine)
     {
-        $templatePath = config('console.templates_path', base_path('resources/console-templates'));
+        $templatePath = config('admin-generator.templates_path', base_path('resources/admin-templates'));
         $templatePath = rtrim($templatePath, '/') . '/' . $engine;
 
         return $templatePath;
@@ -228,9 +262,11 @@ class CreateEntityCommand extends Command
     /**
      * @param $template
      * @param $merge
-     * @param $engine
      *
      * @return array
+     *
+     * @internal param $engine
+     *
      */
     protected function getTemplates($template, $merge)
     {

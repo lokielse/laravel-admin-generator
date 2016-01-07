@@ -1,7 +1,7 @@
 <?php
 /** @var string $name */
-$instance   = config("console.instances.{$name}");
-$assetsDir  = config('console.bower.directory', 'bower_components');
+$instance   = config("admin-generator.instances.{$name}");
+$assetsDir  = config('admin-generator.bower.directory', 'bower_components');
 $trimPrefix = trim($instance['prefix'], '/');
 $base       = $trimPrefix ? ( $trimPrefix . '/' ) : '';
 ?><!DOCTYPE html>

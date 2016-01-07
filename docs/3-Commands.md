@@ -3,23 +3,23 @@ Generation
 
 ### Create a new instance named `admin`
 ```
-php artisan console:new admin
+php artisan admin:new admin
 ```
 
 ### Create a new entity `post` for the `admin-demo` instance
 ```
-php artisan console:entity admin-demo post
+php artisan admin:entity:new post admin-demo
 ```
 use `template` option for this
 ```
-php artisan console:entity admin-demo post -t table
+php artisan admin:entity:new post admin-demo --template=table
 ```
 use multiple `template` option for this
 ```
-php artisan console:entity admin-demo post -t table,edit-modal
+php artisan admin:entity:new post admin-demo --template=table,edit-modal
 ```
 
-more options use `php artisan console:entity -h`
+more options use `php artisan admin:entity:new -h`
 
 ## Generate assets
 ```

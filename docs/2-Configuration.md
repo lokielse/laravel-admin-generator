@@ -4,7 +4,7 @@ Configuration
 Laravel
 ----------------------------
 
-### `config/admin.php`
+### `config/admin-generator.php`
 ```php
 return [
     'bower'     => [
@@ -24,8 +24,8 @@ return [
 
 ### `app\Http\routes.php`
 ```
-$namespace = config('console.namespace');
-$instances = config('console.instances', []);
+$namespace = config('admin-generator.namespace');
+$instances = config('admin-generator.instances', []);
 
 foreach ($instances as $name => $instance) {
 

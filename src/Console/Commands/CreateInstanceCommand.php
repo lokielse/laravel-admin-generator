@@ -1,4 +1,4 @@
-<?php namespace Lokielse\Console\Console\Commands;
+<?php namespace Lokielse\AdminGenerator\Console\Commands;
 
 use File;
 use Illuminate\Console\Command;
@@ -14,14 +14,14 @@ class CreateInstanceCommand extends Command
      *
      * @var string
      */
-    protected $name = 'console:new';
+    protected $name = 'admin:new';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a console instance.';
+    protected $description = 'Create an instance.';
 
 
     /**
@@ -34,12 +34,12 @@ class CreateInstanceCommand extends Command
         $name      = $this->argument('name');
         $force     = $this->option('force');
         $basePath  = realpath(__DIR__ . '/../../..');
-        $namespace = config('console.namespace');
-        $engine    = config('console.engine');
-        $engine    = config("console.instances.{$name}.engine");
+        $namespace = config('admin-generator.namespace');
+        $engine    = config('admin-generator.engine');
+        $engine    = config("admin-generator.instances.{$name}.engine");
 
         if ( ! $namespace) {
-            $this->error("The config 'namespace' in 'config/console.php' can not be empty, general set it to 'admin'");
+            $this->error("The config 'namespace' in 'config/admin-generator.php' can not be empty, general set it to 'admin'");
             exit;
         }
 
@@ -48,8 +48,8 @@ class CreateInstanceCommand extends Command
             exit;
         }
 
-        if ( ! config("console.instances.{$name}")) {
-            $this->warn("The config of instance '{$name}' is not exist, check the typo or add it to config/console.php first");
+        if ( ! config("admin-generator.instances.{$name}")) {
+            $this->warn("The config of instance '{$name}' is not exist, check the typo or add it to config/admin-generator.php first");
             exit;
         }
 
@@ -70,11 +70,14 @@ class CreateInstanceCommand extends Command
         $path   = $basePath . "/engines/{$engine}";
 
         $copies = [ ];
-        foreach ($finder->name('*')->in($path) as $file) {
+
+        foreach ($finder->name('.*')->ignoreDotFiles(false)->in($path) as $file) {
             /**
              * @var \SplFileInfo $file
              */
             if ($file->isFile()) {
+                var_dump($file->getFilename());
+
                 $relativePath = str_replace($basePath . "/engines/{$engine}/", '', $file->getRealPath());
                 $dest         = base_path('resources/' . $relativePath);
                 $dest         = $this->replaceKeyword($dest);
@@ -85,6 +88,8 @@ class CreateInstanceCommand extends Command
                 $copies[] = [ $file->getRealPath(), $dest ];
             }
         }
+
+        dd();
 
         foreach ($copies as $copy) {
             if ( ! is_dir(dirname($copy[1]))) {
@@ -99,7 +104,7 @@ class CreateInstanceCommand extends Command
 
     protected function replaceKeyword($content)
     {
-        $namespace = trim(config('console.namespace'));
+        $namespace = trim(config('admin-generator.namespace'));
         $name      = strtolower($this->argument('name'));
 
         $replaced = preg_replace([
