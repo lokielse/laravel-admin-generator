@@ -35,7 +35,6 @@ class CreateInstanceCommand extends Command
         $force     = $this->option('force');
         $basePath  = realpath(__DIR__ . '/../../..');
         $namespace = config('admin-generator.namespace');
-        $engine    = config('admin-generator.engine');
         $engine    = config("admin-generator.instances.{$name}.engine");
 
         if ( ! $namespace) {
@@ -88,8 +87,6 @@ class CreateInstanceCommand extends Command
                 $copies[] = [ $file->getRealPath(), $dest ];
             }
         }
-
-        dd();
 
         foreach ($copies as $copy) {
             if ( ! is_dir(dirname($copy[1]))) {
