@@ -25,7 +25,7 @@ just type `php artisan admin:new my-admin`
 * Multiple instances in one laravel support
 
 ## Screenshot
-![Screenshot](http://s24.postimg.org/pnrruq6dv/Admin_LTE2_1.png "Screenshot")
+![Screenshot](/screenshots/AdminLTE.png "Screenshot")
 
 ## Software && Lang
 
