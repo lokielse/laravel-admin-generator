@@ -1,6 +1,24 @@
 # Changelog
 
-All Notable changes to `laravel-console` will be documented in this file
+All Notable changes to `laravel-admin-generator` will be documented in this file
+
+## NEXT - 2016-01-07
+
+### Added
+- add more var word
+
+### Deprecated
+- templates folder structure
+
+### Fixed
+- Nothing
+
+### Removed
+- Nothing
+
+### Security
+- Nothing
+
 
 ## NEXT - 2015-12-30
 
@@ -9,7 +27,7 @@ All Notable changes to `laravel-console` will be documented in this file
 - add instance engine config
 
 ### Deprecated
-- templates folder structure
+- package name
 
 ### Fixed
 - Nothing

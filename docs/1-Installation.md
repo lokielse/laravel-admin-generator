@@ -5,20 +5,20 @@ Laravel
 ------
 
 ```bash
-composer require lokielse/laravel-console:~1.2.2
+composer require lokielse/laravel-admin-generator
 ```
 
 ### `config/app.php`
 ```php
 'providers' => [
-    Lokielse\Console\ConsoleServiceProvider::class
+    Lokielse\AdminGenerator\AdminGeneratorServiceProvider::class
 ]
 ```
 
 ### Publish config and templates
 ```bash
-php artisan vendor:publish --provider="Lokielse\Console\ConsoleServiceProvider" --tag=config
-php artisan vendor:publish --provider="Lokielse\Console\ConsoleServiceProvider" --tag=templates
+php artisan vendor:publish --provider="Lokielse\AdminGenerator\AdminGeneratorServiceProvider" --tag=config
+php artisan vendor:publish --provider="Lokielse\AdminGenerator\AdminGeneratorServiceProvider" --tag=templates
 ```
 
 NPM

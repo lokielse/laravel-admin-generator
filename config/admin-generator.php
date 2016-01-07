@@ -5,7 +5,7 @@ return [
         'directory' => 'bower_components'
     ],
     'namespace'      => 'console',
-    'templates_path' => base_path('resources/console-templates'),
+    'templates_path' => base_path('resources/admin-templates'),
     'instances'      => [
         'admin' => [
             'engine'    => 'admin-lte',

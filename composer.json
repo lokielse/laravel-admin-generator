@@ -1,11 +1,17 @@
 {
-  "name": "lokielse/laravel-console",
-  "description": "Console with AngularJs-Bootstrap-SBAdmin for Laravel 5",
+  "name": "lokielse/laravel-admin-generator",
+  "description": "An Admin Panel Generator for Laravel 5",
   "keywords": [
     "lokielse",
-    "laravel-console"
+    "laravel",
+    "admin",
+    "panel",
+    "laravel-admin",
+    "laravel-admin-generator",
+    "laravel-console",
+    "generator"
   ],
-  "homepage": "https://github.com/lokielse/laravel-console",
+  "homepage": "https://github.com/lokielse/laravel-admin-generator",
   "license": "MIT",
   "authors": [
     {
@@ -23,12 +29,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Lokielse\\Console\\": "src"
+      "Lokielse\\AdminGenerator\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Lokielse\\Console\\Test\\": "tests"
+      "Lokielse\\AdminGenerator\\Test\\": "tests"
     }
   },
   "scripts": {
@@ -36,7 +42,6 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "1.0.0-dev"
     }
   }
 }
