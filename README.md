@@ -63,7 +63,7 @@ Create a new entity `post` for the instance `admin-demo`
 php artisan admin:entity:new post admin-demo
 ```
 
-More usages please visit the bellow wiki [Commands](docs/3-Commands.md)
+More usages please visit [Commands](docs/3-Commands.md)
 
 
 ## Change log
