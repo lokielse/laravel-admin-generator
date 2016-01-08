@@ -11,9 +11,10 @@ Laravel Admin Generator
 An Admin Panel Generator for Laravel 5
 
 You can create one admin panel in few seconds with this package!!!
+
 You can create many admin panel in few seconds with this package!!!
 
-just type `php artisan admin:new my-admin`
+Just type `php artisan admin:new my-admin`
 
 ## Features
 
