@@ -3,40 +3,30 @@ Laravel Admin Generator
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
 An Admin Panel Generator for Laravel 5
 
-You can create one admin panel in few seconds with this package!!!
+You can create one admin panel in few seconds with it!!!
 
-You can create many admin panel in few seconds with this package!!!
+You can create many admin panels in few seconds with it!!!
 
-Just type `php artisan admin:new my-admin`
+Save your short life, Just type `php artisan admin:new my-admin`
 
 ## Features
 
-* Fast, very fast
-* Few config before boot your admin instance
+* It's easy to create an instance with few configuration
 * Structured already, just focus on your business
-* Custom templates yourself
-* Integrate with AdminLTE, SBAdmin
-* Multiple instances in one laravel support
+* Custom templates yourself under `resources/admin-templates`
+* Integrated with AdminLTE, SBAdmin
+* Support multiple instances in one laravel
 
 ## Screenshot
 ![Screenshot](/screenshots/AdminLTE.png "Screenshot")
 
 ## Software && Lang
 
-* AngularJs
-* Bootstrap
-* SB Admin
-* AdminLTE
-* CoffeeScript
-* Sass
-* Gulp
+AngularJs, Bootstrap, SB Admin, AdminLTE, CoffeeScript, Sass, Gulp
 
 ## Install
 

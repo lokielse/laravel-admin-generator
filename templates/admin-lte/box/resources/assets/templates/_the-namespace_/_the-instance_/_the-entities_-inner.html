@@ -5,29 +5,26 @@
             <span class="glyphicon glyphicon-refresh"></span></div>
         &nbsp;&nbsp;
         <div class="btn-group" ng-click="reload()">
-            <div class="btn btn-default btn-sm" ng-model="filter.apply" uib-btn-radio="0">
-                待审
-                <small ng-show="counter.apply_0">({{counter.apply_0}})</small>
+            <div class="btn btn-default btn-sm" ng-model="filter.apply" uib-btn-radio="'0'">
+                Audit
             </div>
-            <div class="btn btn-default btn-sm" ng-model="filter.apply" uib-btn-radio="1">
-                通过
-                <small ng-show="counter.apply_1">({{counter.apply_1}})</small>
+            <div class="btn btn-default btn-sm" ng-model="filter.apply" uib-btn-radio="'1'">
+                OK
             </div>
-            <div class="btn btn-default btn-sm" ng-model="filter.apply" uib-btn-radio="2">
-                屏蔽
-                <small ng-show="counter.apply_2">({{counter.apply_2}})</small>
+            <div class="btn btn-default btn-sm" ng-model="filter.apply" uib-btn-radio="'2'">
+                Fail
             </div>
         </div>
         &nbsp;&nbsp;
         <div class="btn-group" ng-click="reload()">
             <div class="btn btn-default btn-sm" ng-model="filter.user_type"
-                 uib-btn-radio="'-1'">性别
+                 uib-btn-radio="''">Gender
             </div>
             <div class="btn btn-default btn-sm" ng-model="filter.user_type"
-                 uib-btn-radio="'1'">功
+                 uib-btn-radio="'1'">Male
             </div>
             <div class="btn btn-default btn-sm" ng-model="filter.user_type"
-                 uib-btn-radio="'2'">魅
+                 uib-btn-radio="'2'">Female
             </div>
         </div>
     </div>
@@ -36,7 +33,7 @@
         <div class="input-group">
 
             <input type="text" class="form-control input-sm" ng-model="filter.search"
-                   placeholder="UID,手机,昵称,所在地"
+                   placeholder="keyword"
                    ng-enter="search()">
                     <span class="input-group-btn">
                       <div class="btn btn-default btn-sm"
