@@ -39,11 +39,11 @@ class AdminGeneratorServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bindShared('le-admin.command.instance.new', function ($app) {
+        $this->app->singleton('le-admin.command.instance.new', function ($app) {
             return $app->make('Lokielse\AdminGenerator\Console\Commands\CreateInstanceCommand');
         });
 
-        $this->app->bindShared('le-admin.command.entity.new', function ($app) {
+        $this->app->singleton('le-admin.command.entity.new', function ($app) {
             return $app->make('Lokielse\AdminGenerator\Console\Commands\CreateEntityCommand');
         });
 
