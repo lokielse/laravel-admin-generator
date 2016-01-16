@@ -1,4 +1,4 @@
-app.controller '_TheEntity_EditModalController', ($scope, $modalInstance, _theEntity_, readonly, _TheEntity_)->
+app.controller '_TheEntity_EditModalController', ($scope, $modalInstance, _entity_, readonly, _TheEntity_)->
   $scope._theEntity_ = _theEntity_
   $scope.readonly = readonly
 
