@@ -25,6 +25,7 @@ NPM
 ---
 ```bash
 npm install laravel-elixir-ng-templates@^0.1.2 --save
+npm install laravel-elixir-ngtemplatecache@^0.2.0 --save
 npm install underscore --save
 ```
 
