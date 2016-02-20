@@ -73,6 +73,12 @@ class CreateEntityCommand extends Command
             $content  = $filesystem->get($src);
             $replaced = $this->replaceKeyword($content);
 
+            $folder = dirname($destName);
+
+            if ( ! is_dir($folder)) {
+                mkdir($folder, 0755, true);
+            }
+
             $filesystem->put($destName, $replaced);
         }
 
