@@ -627,23 +627,42 @@ $base       = $trimPrefix ? ( $trimPrefix . '/' ) : '';
 
 
 <script type="text/javascript">
+    var AdminLTEOptions = {
+        animationSpeed: 100
+    };
+
     jQuery(function () {
+
         var sidebar = $("#sidebar");
         var wrapper = $(window, ".wrapper");
 
         sidebar.find('li').click(function () {
             var siblings = $(this).siblings();
             siblings.find('>ul').hide();
-            siblings.removeClass('active');
-            $(this).addClass('active');
+            siblings.removeClass('active menu-open');
+            $(this).addClass('active menu-open');
 
             setTimeout(function () {
                 wrapper.trigger('resize');
             });
         });
 
-        sidebar.find('a.active').first().parents('li').addClass('active menu-open');
+        var activeLi = sidebar.find('a.active').first();
+        activeLi.parents('li').addClass('active menu-open').show();
+        activeLi.parents('ul').show();
+
+        function updateWidth() {
+            var w = $(window);
+            var body = $('body');
+            body.css({width: w.width()});
+            $('.main-header').css({width: w.width()});
+        }
+
+        setTimeout(updateWidth);
+
+        $(window).on('resize', updateWidth);
     });
+
 </script>
 
 </body>
