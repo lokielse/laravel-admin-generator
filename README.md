@@ -43,10 +43,10 @@ More about this please visit [Installation](docs/1-Installation.md) and [Configu
 Create a new instance named `admin-demo`
 ```
 //create an console demo with AdminLTE
-php artisan admin:new admin-demo --engine=admin-lte
+php artisan admin:new admin-demo
 
 //or create an console demo with SB-Admin
-php artisan admin:new admin-demo --engine=sb-admin
+php artisan admin:new admin-demo
 ```
 
 Create a new entity `post` for the instance `admin-demo`
