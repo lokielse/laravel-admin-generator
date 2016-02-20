@@ -11,7 +11,7 @@ You can create one admin panel in few seconds with it!!!
 
 You can create many admin panels in few seconds with it!!!
 
-Save your short life, Just type `php artisan admin:new my-admin`
+Save your life, Just type `php artisan admin:new my-admin`
 
 ## Features
 
