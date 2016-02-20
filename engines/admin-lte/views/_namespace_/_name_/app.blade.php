@@ -367,7 +367,7 @@ $base       = $trimPrefix ? ( $trimPrefix . '/' ) : '';
                         <span>@{{menu.title}}</span>
                         <i class="fa fa-angle-left pull-right" ng-show="menu.menus.length"></i>
                     </a>
-                    <ul class="treeview-menu" ng-if="!menu.header && menu.menus.length">
+                    <ul class="treeview-menu" ng-if="!menu.header && menu.menus.length" style="display: block;">
                         <li ng-repeat="menu in menu.menus">
                             <a ui-sref="@{{menu.state}}" ng-if="menu.state" ui-sref-active="active">
                                 <i class="fa fa-@{{menu.icon}} fa-fw"></i>
@@ -379,7 +379,7 @@ $base       = $trimPrefix ? ( $trimPrefix . '/' ) : '';
                                 <span>@{{menu.title}}</span>
                                 <i class="fa fa-angle-left pull-right" ng-show="menu.menus.length"></i>
                             </a>
-                            <ul class="treeview-menu" ng-if="menu.menus.length">
+                            <ul class="treeview-menu" ng-if="menu.menus.length" style="display: none;">
                                 <li ng-repeat="menu in menu.menus">
                                     <a ui-sref="@{{menu.state}}" ui-sref-active="active">
                                         <i class="fa fa-@{{menu.icon}} fa-fw"></i>
@@ -631,6 +631,9 @@ $base       = $trimPrefix ? ( $trimPrefix . '/' ) : '';
         animationSpeed: 100
     };
 
+    var apiBase = '{{ $apiBase }}';
+    var authUserId = '{{Auth()->user()->uid}}';
+
     jQuery(function () {
 
         var sidebar = $("#sidebar");
@@ -648,8 +651,19 @@ $base       = $trimPrefix ? ( $trimPrefix . '/' ) : '';
         });
 
         var activeLi = sidebar.find('a.active').first();
-        activeLi.parents('li').addClass('active menu-open').show();
-        activeLi.parents('ul').show();
+        activeLi.parents('li').addClass('hey');
+//      activeLi.parents('ul').show();
+
+        sidebar.find('>li').each(function () {
+            var li = $(this);
+            if (!li.hasClass('hey')) {
+                li.removeClass('active menu-open');
+                li.find('>ul').hide();
+            } else {
+                li.addClass('active menu-open');
+                li.find('>ul').show();
+            }
+        });
 
         function updateWidth() {
             var w = $(window);
@@ -658,7 +672,9 @@ $base       = $trimPrefix ? ( $trimPrefix . '/' ) : '';
             $('.main-header').css({width: w.width()});
         }
 
+
         setTimeout(updateWidth);
+
 
         $(window).on('resize', updateWidth);
     });
