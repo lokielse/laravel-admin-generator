@@ -77,7 +77,6 @@ class CreateInstanceCommand extends Command
              * @var \SplFileInfo $file
              */
             if ($file->isFile()) {
-                var_dump($file->getFilename());
                 $relativePath = str_replace($basePath . "{$s}engines{$s}{$engine}{$s}", '', $file->getRealPath());
                 $dest         = base_path("resources{$s}" . $relativePath);
                 $dest         = $this->replaceKeyword($dest);
@@ -93,6 +92,7 @@ class CreateInstanceCommand extends Command
             if ( ! is_dir(dirname($copy[1]))) {
                 mkdir(dirname($copy[1]), 0755, true);
             }
+            $this->info('Copy file to: ' . str_replace(base_path(), '', $copy[1]));
             File::copy($copy[0], $copy[1]);
         }
 
