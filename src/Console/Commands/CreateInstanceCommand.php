@@ -70,13 +70,16 @@ class CreateInstanceCommand extends Command
 
         $copies = [ ];
 
-        foreach ($finder->name('.*')->ignoreDotFiles(false)->in($path) as $file) {
+        $s = DIRECTORY_SEPARATOR;
+
+        foreach ($finder->name('*')->ignoreDotFiles(false)->in($path) as $file) {
             /**
              * @var \SplFileInfo $file
              */
             if ($file->isFile()) {
-                $relativePath = str_replace($basePath . DIRECTORY_SEPARATOR . "engines". DIRECTORY_SEPARATOR . $engine . DIRECTORY_SEPARATOR, '', $file->getRealPath());
-                $dest         = base_path('resources' . DIRECTORY_SEPARATOR . $relativePath);
+                var_dump($file->getFilename());
+                $relativePath = str_replace($basePath . "{$s}engines{$s}{$engine}{$s}", '', $file->getRealPath());
+                $dest         = base_path("resources{$s}" . $relativePath);
                 $dest         = $this->replaceKeyword($dest);
                 if (is_file($dest) && ! $force) {
                     $this->warn(sprintf("The file '%s' exists, use '--force' option to overwrite it.", str_replace(base_path(), '', $dest)));
