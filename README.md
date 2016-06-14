@@ -42,10 +42,7 @@ More about this please visit [Installation](docs/1-Installation.md) and [Configu
 
 Create a new instance named `admin-demo`
 ```
-//create an console demo with AdminLTE
-php artisan admin:new admin-demo
-
-//or create an console demo with SB-Admin
+//create an console demo
 php artisan admin:new admin-demo
 ```
 

@@ -73,12 +73,6 @@ class CreateEntityCommand extends Command
             $content  = $filesystem->get($src);
             $replaced = $this->replaceKeyword($content);
 
-            $folder = dirname($destName);
-
-            if ( ! is_dir($folder)) {
-                mkdir($folder, 0755, true);
-            }
-
             $filesystem->put($destName, $replaced);
         }
 
@@ -98,23 +92,26 @@ class CreateEntityCommand extends Command
     protected function getMergedFiles($templates, $engine)
     {
         $names  = [ ];
-        $finder = new Finder();
 
         foreach ($templates as $n => $template) {
             $path = $this->getTemplateDir($template, $engine);
 
-            foreach ($finder->name('*')->in($path) as $file) {
+            $finder = new Finder();
+
+            foreach ($finder->in($path) as $file) {
                 /**
                  * @var \SplFileInfo $file
                  */
                 if ($file->isFile()) {
                     $add = true;
+
                     for ($k = $n + 1; $k < count($templates); $k++) {
-                        if ($this->fileExistInTemplate($templates[$k])) {
+                        if ($this->fileExistInTemplate($path, $file, $engine, $templates[$k])) {
                             $add = false;
                             break;
                         }
                     }
+
                     if ($add) {
                         $names[] = $file->getPathname();
                     }
@@ -126,9 +123,14 @@ class CreateEntityCommand extends Command
     }
 
 
-    protected function fileExistInTemplate($template)
+    protected function fileExistInTemplate($path, \SplFileInfo $file, $engine, $template)
     {
-        return true;
+        $uri = str_replace($path, '',$file->getRealPath());
+        $base = $this->getTemplateDir($template, $engine);
+
+        $filename = $base.$uri;
+
+        return is_file($filename);
     }
 
 
