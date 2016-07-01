@@ -12,12 +12,19 @@ php artisan admin:entity:new post admin-demo
 ```
 use `template` option for this
 ```
-php artisan admin:entity:new post admin-demo --template=table
+php artisan admin:entity:new post admin-demo --template=box
 ```
 use multiple `template` option for this
 ```
-php artisan admin:entity:new post admin-demo --template=table,edit-modal
+php artisan admin:entity:new post admin-demo --template=api,box,edit-modal
 ```
+
+## Native templates
+
+- api
+- box
+- table
+- edit-modal
 
 more options use `php artisan admin:entity:new -h`
 
