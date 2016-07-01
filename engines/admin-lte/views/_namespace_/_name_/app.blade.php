@@ -633,7 +633,7 @@ $apiBase    = Input::getUriForPath("/{$base}~");
     };
 
     var apiBase = '{{ $apiBase }}';
-    var authUserId = '{{Auth()->user()->uid}}';
+    var authUserId = '{{Auth()->user()->id}}';
 
     jQuery(function () {
 
