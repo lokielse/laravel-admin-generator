@@ -4,6 +4,7 @@ $instance   = config("admin-generator.instances.{$name}");
 $assetsDir  = config('admin-generator.bower.directory', 'bower_components');
 $trimPrefix = trim($instance['prefix'], '/');
 $base       = $trimPrefix ? ( $trimPrefix . '/' ) : '';
+$apiBase    = $request->getUriForPath("/{$base}~");
 ?><!DOCTYPE html>
 <html lang="en" ng-app="{{ $instance['ng_app'] }}">
 
