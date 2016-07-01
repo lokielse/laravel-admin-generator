@@ -1,9 +1,6 @@
 Configuration
 =============
 
-Laravel
-----------------------------
-
 ### `config/admin-generator.php`
 ```php
 return [
@@ -24,6 +21,9 @@ return [
 
 ### `app\Http\routes.php`
 ```
+use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
+
 $namespace = config('admin-generator.namespace');
 $instances = config('admin-generator.instances', []);
 
@@ -35,8 +35,8 @@ foreach ($instances as $name => $instance) {
     ];
 
     Route::group($attributes, function () use ($namespace, $name, $instance) {
-        Route::get('{slug}', function () use ($namespace, $name) {
-            return view("{$namespace}/{$name}/app", compact('namespace', 'name'));
+        Route::get('{slug}', function (Request $request) use ($namespace, $name) {
+            return view("{$namespace}/{$name}/app", compact('namespace', 'name', 'request'));
         })->where('slug', '.*');;
     });
 }
@@ -54,9 +54,10 @@ require('laravel-elixir-ngtemplatecache');
 
 elixir(function (mix) {
     var namespace = 'console';
-    var instances = [{
-        name: 'admin'
-    }];
+    var instances = [
+    	{name: 'admin'}
+    	//add more instance here
+    ];
 
     _.each(instances, function (instance) {
         mix.coffee([
