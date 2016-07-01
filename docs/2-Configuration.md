@@ -20,7 +20,7 @@ return [
 ```
 
 ### `app\Http\routes.php`
-```
+```php
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 
