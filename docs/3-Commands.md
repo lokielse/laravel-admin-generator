@@ -1,9 +1,9 @@
 Generation
 ==========
 
-### Create a new instance named `admin`
+### Create a new instance named `admin-demo`
 ```
-php artisan admin:new admin
+php artisan admin:new admin-demo
 ```
 
 ### Create a new entity `post` for the `admin-demo` instance
